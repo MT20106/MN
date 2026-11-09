@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d17"><title>MNTST</title>
+<style>
+:root{color-scheme:dark;--bg:#050505;--panel:#101010;--panel2:#0b0b0b;--line:#242424;--txt:#f2f2f2;--muted:#999999;--blue:#668fff;--red:#ff8585}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0,#171717 0,#090909 40%,var(--bg) 78%);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;padding:22px}
+button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.wrap{width:min(100%,900px);margin:0 auto}.center{width:min(100%,410px);margin:7vh auto;text-align:center}
+.logo{width:76px;height:76px;margin:0 auto 18px;border-radius:50%;display:grid;place-items:center;border:1px solid #435c87;background:linear-gradient(145deg,#203555,#0b1423);box-shadow:0 0 42px #4268bd30,inset 0 0 22px #5475b522;font-weight:850;font-size:25px;letter-spacing:2px}
+h1{font-size:29px;letter-spacing:5px;margin:0 0 7px}.sub{color:var(--muted);font-size:12px;letter-spacing:1px;margin:0 0 27px}
+.card{background:linear-gradient(155deg,#111111,#090909);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 22px 70px #0007;margin-bottom:16px}
+label{display:block;color:#bac7d9;font-size:13px;margin:0 0 8px}
+input,select{width:100%;min-width:0;height:46px;padding:0 12px;border-radius:10px;border:1px solid #333;background:#090909;color:var(--txt);outline:none;margin-bottom:13px}
+input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px #6888ff20}
+button{border:0;border-radius:10px;padding:12px 17px;background:linear-gradient(100deg,#4668dc,#708aff);color:white;font-weight:700}
+button.secondary{background:#202020;border:1px solid #3a3a3a}button.danger{background:#572c3a;border:1px solid #8d4353}
+button:disabled{opacity:.5;cursor:not-allowed}.wide{width:100%}
+.msg{min-height:22px;color:#ffb4b4;font-size:12px;margin-top:10px}.muted{color:var(--muted);font-size:12px;line-height:1.7}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:8px 0 22px}.brand{display:flex;align-items:center;gap:12px}.brand .logo{width:48px;height:48px;margin:0;font-size:17px}.brand h1{font-size:21px;margin:0;letter-spacing:3px}
+.tabs{display:none;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tabs.visible{display:flex}.tabs button{background:#111e30;border:1px solid #2a3d58;color:#c9d5e7}.tabs button.active{background:#3858ba;border-color:#6688ff;color:white}
+.panel{display:none}.panel.active{display:block}.dashboard{margin:4px 0 18px}.dash-title{display:flex;align-items:center;justify-content:space-between;margin:0 2px 13px}.dash-title h2{font-size:20px;margin:0}.dash-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.dash-tile{border:1px solid #202020;border-radius:15px;min-height:128px;padding:17px 15px;text-align:right;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;color:#f5f5f5;background:#101010;transition:transform .18s,border-color .18s}.dash-tile:active{transform:scale(.98)}.dash-tile .ico{font-size:23px}.dash-tile strong{font-size:16px}.dash-tile small{color:#aaa;font-size:12px}.tile-blue{background:#07111f}.tile-red{background:#1b0809}.tile-green{background:#07170d}.tile-purple{background:#160b20}.dash-tile:hover{border-color:#555}.backline{display:flex;align-items:center;gap:10px;margin:0 0 13px}.backline button{padding:8px 12px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.section-head h2{margin:0}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.row button{flex:0 0 auto}
+.item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #25354b}.item:last-child{border-bottom:0}.item strong{display:block;overflow-wrap:anywhere}.item small{color:var(--muted)}.actions{display:flex;gap:7px;flex-wrap:wrap}.actions button{padding:8px 10px;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:12px}.photo{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#09111e}.photo img{width:100%;height:130px;object-fit:cover;display:block}.photo div{padding:9px;font-size:12px;overflow-wrap:anywhere}
+footer{text-align:center;color:#566781;font-size:11px;letter-spacing:2px;margin:28px 0 10px}
+@media(max-width:520px){body{padding:14px}.top{align-items:flex-start}.card{padding:17px}.row>*{flex-basis:100%}.row button{width:100%}}
+
+/* Modern upload controls, image viewer, profile and settings */
+.upload-zone{border:1px dashed #465b7b;border-radius:15px;background:linear-gradient(135deg,#101b2a,#0b0e14);padding:16px;margin:12px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.upload-zone .hint{color:#9eacc2;font-size:12px;line-height:1.7}
+.file-trigger{display:inline-flex;align-items:center;gap:8px;padding:11px 15px;border-radius:11px;background:#1a2b46;border:1px solid #3c5c89;color:#eaf1ff;font-weight:700;cursor:pointer}
+.file-trigger input{display:none}
+.upload-zone .selected{font-size:12px;color:#b9c9e5;flex:1 1 100%}
+.upload-progress{display:none;width:100%;padding:12px;border:1px solid #34435b;border-radius:12px;background:#090f18;margin-top:10px}.upload-progress.active{display:block}.progress-head{display:flex;justify-content:space-between;gap:10px;font-size:12px;margin-bottom:8px}.progress-track{height:11px;border-radius:99px;background:#252d3a;overflow:hidden}.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#4668dc,#55c5ff);border-radius:99px;transition:width .12s}.progress-meta{display:flex;justify-content:space-between;gap:8px;color:#9eacc2;font-size:11px;margin-top:7px;direction:ltr}
+.storage-card{margin-top:16px}.storage-line{display:flex;justify-content:space-between;gap:8px;font-size:12px;margin:10px 0 6px}.storage-track{height:10px;background:#252d3a;border-radius:99px;overflow:hidden}.storage-fill{height:100%;background:linear-gradient(90deg,#4668dc,#55c5ff);width:0%;border-radius:99px}.storage-note{font-size:11px;color:#9eacc2;line-height:1.7;margin-top:10px}
+.photo{position:relative;cursor:pointer;transition:transform .18s,border-color .18s}
+.photo:hover{transform:translateY(-2px);border-color:#536b94}.photo.selected{border:2px solid #7195ff;box-shadow:0 0 0 2px #7195ff35}.photo .select-mark{position:absolute;top:8px;right:8px;width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:#111d;color:#fff;border:1px solid #7899ff;font-weight:800;z-index:2}.bulk-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:11px;margin:12px 0;border:1px solid #40577e;border-radius:12px;background:#101a2a}.bulk-tools strong{margin-left:auto;font-size:13px}.bulk-tools button{padding:9px 12px;font-size:12px}
+.photo img{height:150px;object-fit:cover}
+.photo .photo-meta{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:8px}
+.photo .photo-name{font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.more-btn{flex:0 0 auto;width:32px;height:32px;padding:0!important;border-radius:9px;background:#202a3a;border:1px solid #3c4d68;font-size:20px;line-height:1}
+.photo-menu{position:absolute;z-index:4;left:8px;bottom:48px;background:#111a28;border:1px solid #3b4e6d;border-radius:11px;padding:6px;display:grid;gap:5px;box-shadow:0 12px 30px #000b}
+.photo-menu button{font-size:12px;padding:8px 12px;text-align:right}
+.viewer{position:fixed;inset:0;background:#000e;z-index:50;display:none;align-items:center;justify-content:center;padding:18px}
+.viewer.open{display:flex}.viewer-inner{width:min(100%,900px);max-height:95vh;background:#101010;border:1px solid #39465c;border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.viewer img{max-width:100%;max-height:75vh;object-fit:contain;margin:auto}
+.viewer-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.viewer-actions{display:flex;gap:8px;flex-wrap:wrap}
+.settings-btn{width:42px;height:42px;padding:0;border-radius:12px;background:#151b26;border:1px solid #34435b;font-size:20px}
+.profile-row{display:flex;align-items:center;gap:14px;margin:10px 0 18px}
+.avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;background:#202a3a;border:2px solid #536b94;display:grid;place-items:center;font-size:25px;overflow:hidden}
+.settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.log-row{padding:11px;border:1px solid #28364a;border-radius:11px;margin:8px 0;background:#0b111a;font-size:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.log-row .log-info{min-width:0;flex:1}.log-row .log-delete{padding:7px 10px;font-size:11px}
+.password-line{display:flex;align-items:center;gap:7px;margin-top:8px;max-width:100%}.password-line input{margin:0;flex:1;min-width:0}.eye-btn{padding:8px 11px;min-width:42px;background:#202a3a;border:1px solid #3c4d68}.limited-card{text-align:center;margin-top:10vh}.timer{font-size:34px;font-weight:800;letter-spacing:2px;color:#a9bdff;margin:18px 0}
+@media(max-width:520px){.photo img{height:125px}.upload-zone{align-items:stretch}.file-trigger{justify-content:center}}
+
+</style>
+</head>
+<body>
+<main class="wrap">
+<section id="loginView" class="center">
+ <div class="logo">M</div><h1>MNTST</h1><p class="sub">PRIVATE SPACE · مساحة خاصة</p>
+ <div class="card" style="text-align:right">
+  <form id="loginForm"><label for="loginPassword">كلمة المرور</label><input id="loginPassword" type="password" placeholder="أدخل كلمة المرور" autocomplete="current-password" required><button class="wide" type="submit">دخول</button></form>
+  <div id="loginMsg" class="msg"></div>
+ </div><p class="muted">مساحتك الخاصة لحفظ الملفات والصور وبيانات البريد.</p>
+</section>
+<section id="limitedView" class="center hidden"><div class="logo">M</div><h1>MNTST</h1><p class="sub">جلسة محدودة</p><div class="card limited-card"><h2>لا توجد بيانات متاحة في هذا الوضع</h2><p class="muted">للوصول إلى ملفاتك وحساباتك، سجّل الدخول بكلمة المرور الرئيسية.</p><div class="timer" id="limitedTimer">05:00</div><button id="limitedExit" class="secondary wide">إنهاء الجلسة</button></div></section>
+
+<section id="appView" class="hidden">
+ <header class="top"><div class="brand"><div class="logo">M</div><div><h1>MNTST</h1><div class="muted">مساحتك الخاصة</div></div></div><div class="row" style="flex:0 0 auto;gap:7px"><button class="settings-btn" id="settingsBtn" title="الإعدادات" aria-label="الإعدادات">⚙</button><button class="secondary" id="logoutBtn">تسجيل الخروج</button></div></header>
+ <section id="dashboard" class="dashboard">
+  <div class="dash-title"><h2>خزنتي الخاصة</h2><span class="muted">مساحة آمنة لملفاتك · الجلسة 5 دقائق</span></div>
+  <div class="dash-grid">
+   <button class="dash-tile tile-blue" data-open="imagesPanel"><span class="ico">▧</span><strong>الصور</strong><small>ملفات الصور</small></button>
+   <button class="dash-tile tile-red" data-open="filesPanel"><span class="ico">▣</span><strong>ملفات APK</strong><small>التطبيقات والملفات</small></button>
+   <button class="dash-tile tile-purple" data-open="vaultPanel"><span class="ico">⚿</span><strong>الحسابات</strong><small>بيانات البريد الإلكتروني</small></button>
+   <button class="dash-tile tile-green" data-open="filesPanel"><span class="ico">▤</span><strong>ملفاتي</strong><small>إدارة الملفات المحفوظة</small></button>
+  </div>
+  <div class="card storage-card">
+   <div class="section-head"><h3 style="margin:0">مساحة التخزين</h3><button class="secondary" id="refreshStorage" type="button">تحديث</button></div>
+   <div class="storage-line"><strong>الملفات والصور</strong><span id="storageNumbers">جارٍ حساب المساحة...</span></div>
+   <div class="storage-track"><div class="storage-fill" id="storageFill"></div></div>
+   <div class="storage-note" id="storageDetails">حد الخطة المجانية: 1 GB لتخزين الملفات.</div>
+   <div class="storage-line" style="margin-top:16px"><strong>قاعدة البيانات</strong><span id="databaseLimit">500 MB كحد للخطة المجانية</span></div>
+   <div class="storage-note">استخدام قاعدة البيانات الفعلي يظهر في Supabase داخل Reports → Database Size؛ وهو منفصل عن مساحة الصور وملفات APK.</div>
+  </div>
+ </section>
+ <nav id="tabsNav" class="tabs" aria-label="التنقل بين الأقسام">
+  <button class="active" data-tab="filesPanel">ملفات APK</button><button data-tab="imagesPanel">الصور</button><button data-tab="vaultPanel">الإيميلات</button>
+ </nav>
+ <section id="filesPanel" class="panel card">
+  <div class="backline"><button class="secondary" data-home>رجوع</button><h2>ملفات APK</h2></div><p class="muted">ارفع ملفات APK الخاصة بك واحفظها في مساحة تخزين خاصة.</p>
+  <div class="upload-zone"><div class="hint"><strong>إضافة تطبيقات APK</strong><br>يمكنك تحديد أكثر من ملف في عملية واحدة.</div><label class="file-trigger">＋ تحديد ملفات APK<input id="apkInput" type="file" accept=".apk,application/vnd.android.package-archive" multiple></label><div id="apkSelected" class="selected">لم يتم تحديد ملفات</div><button id="uploadApk">رفع الملفات</button></div><div id="apkMsg" class="msg"></div><div id="apkProgress" class="upload-progress" aria-live="polite"><div class="progress-head"><strong id="apkProgressTitle">جاري تجهيز الرفع...</strong><strong id="apkProgressPercent">0%</strong></div><div class="progress-track"><div class="progress-fill" id="apkProgressFill"></div></div><div class="progress-meta"><span id="apkProgressBytes">0 B / 0 B</span><span id="apkProgressFiles">0 / 0 ملف</span></div></div><div id="apkList"></div>
+ </section>
+ <section id="imagesPanel" class="panel card">
+  <div class="backline"><button class="secondary" data-home>رجوع</button><h2>الصور</h2></div><p class="muted">الصور تُحفظ داخل مساحة تخزين خاصة وليست عامة.</p>
+  <div class="upload-zone"><div class="hint"><strong>إضافة صور</strong><br>اضغط مطولاً على صورة لبدء التحديد، ويمكنك تحديد صور متعددة.</div><label class="file-trigger">＋ تحديد الصور<input id="imageInput" type="file" accept="image/*" multiple></label><div id="imageSelected" class="selected">لم يتم تحديد صور</div><button id="uploadImage">رفع الصور</button></div><div id="imageMsg" class="msg"></div><div id="imageProgress" class="upload-progress" aria-live="polite"><div class="progress-head"><strong id="imageProgressTitle">جاري تجهيز الرفع...</strong><strong id="imageProgressPercent">0%</strong></div><div class="progress-track"><div class="progress-fill" id="imageProgressFill"></div></div><div class="progress-meta"><span id="imageProgressBytes">0 B / 0 B</span><span id="imageProgressFiles">0 / 0 ملف</span></div></div><div id="imageBulkTools" class="bulk-tools hidden"><strong id="imageSelectionCount">تم تحديد 0 صورة</strong><button class="secondary" id="clearImageSelection">إلغاء التحديد</button><button id="downloadSelectedImages">تنزيل المحدد</button><button class="danger" id="deleteSelectedImages">حذف المحدد</button></div><div id="imageList" class="grid" style="margin-top:15px"></div>
+ </section>
+ <section id="vaultPanel" class="panel card">
+  <div class="backline"><button class="secondary" data-home>رجوع</button><h2>الحسابات</h2></div>
+  <p class="muted">كلمات مرور البريد تُشفّر في المتصفح قبل حفظها. استخدم نفس كلمة مرور دخول MNTST لفتح الخزنة. إذا نسيتها فلن يمكن استرجاع كلمات المرور المشفّرة.</p>
+  <div id="vaultLocked" class="hidden"><label>كلمة مرور MNTST لفتح الخزنة</label><input id="unlockPassword" type="password" placeholder="كلمة المرور"><button id="unlockBtn">فتح الخزنة</button><div id="unlockMsg" class="msg"></div></div>
+  <div id="vaultContent">
+   <label>عنوان البريد الإلكتروني</label><input id="vaultEmail" type="email" placeholder="example@gmail.com">
+   <label>كلمة مرور البريد</label><div class="password-line"><input id="vaultPassword" type="password" placeholder="كلمة المرور"><button type="button" class="eye-btn" id="newVaultEye" title="إظهار أو إخفاء كلمة السر">👁</button></div>
+   <button id="saveVault">حفظ مشفّر</button><div id="vaultMsg" class="msg"></div><div id="vaultList"></div>
+  </div>
+ </section>
+ <section id="settingsPanel" class="panel card">
+  <div class="backline"><button class="secondary" data-home>رجوع</button><h2>الإعدادات والملف الشخصي</h2></div>
+  <div class="profile-row"><img id="profileAvatar" class="avatar" alt="الصورة الشخصية"><div><strong id="profileEmail">حساب المالك</strong><p class="muted">الملف الشخصي وإدارة الجلسات</p><label class="file-trigger">تغيير الصورة الشخصية<input id="avatarInput" type="file" accept="image/*"></label></div></div>
+  <div class="settings-grid">
+   <div><h3>الملف الشخصي</h3><label for="profileName">الاسم الظاهر</label><input id="profileName" maxlength="50" placeholder="اكتب اسمك"><button id="saveProfile">حفظ الملف الشخصي</button><div id="profileMsg" class="msg"></div></div>
+   <div><h3>الجلسات وسجل الدخول</h3><p class="muted">يعرض السجل عمليات الدخول والخروج المسجلة من هذا التطبيق. إغلاق المتصفح فجأة قد لا يسجل عملية خروج.</p><div class="row" style="margin:10px 0"><button class="secondary" id="refreshLogs" type="button">تحديث السجل</button><button class="danger" id="deleteAllLogs" type="button">مسح السجل بالكامل</button></div><div id="sessionLogs"></div></div>
+  </div>
+ </section>
+ <footer>MNTST ©</footer>
+</section>
+</main>
+<div id="imageViewer" class="viewer" role="dialog" aria-modal="true" aria-label="معاينة الصورة"><div class="viewer-inner"><div class="viewer-head"><strong id="viewerTitle">معاينة الصورة</strong><button class="secondary" id="closeViewer">إغلاق ✕</button></div><img id="viewerImage" alt="الصورة المحددة"><div class="viewer-actions"><a id="viewerDownload" class="file-trigger" download>تنزيل الصورة</a><button class="danger" id="viewerDelete">حذف الصورة</button></div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://nzlfaswkyjmktoqgpwvt.supabase.co";
+const SUPABASE_KEY = "sb_publishable_BR2r3xvt4NYzSr7mBx2tGg_l2IoHSC4";
+const OWNER_EMAIL = "asdj12asdj@gmail.com";
+// كلمة مرور الجلسة المحدودة لا تمنح أي وصول إلى بيانات Supabase.
+const TEMP_PASSWORD = "UIU2006";
+const TEMP_SESSION_MS = 5 * 60 * 1000;
+const BUCKET = "private-files";
+const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let vaultKeyPassword = "";
+
+const $ = id => document.getElementById(id);
+function message(id, text, error=true){$(id).textContent=text;$(id).style.color=error?"#ffb4b4":"#9be0b0";}
+function safeName(s){return s.replace(/[^\w.\-() ]/g,"_").slice(0,100)||"file";}
+function showApp(){ $("loginView").classList.add("hidden"); $("appView").classList.remove("hidden"); }
+function showLogin(){ $("appView").classList.add("hidden"); $("limitedView").classList.add("hidden"); $("loginView").classList.remove("hidden"); }
+let limitedTimerId=null, limitedEndsAt=0, limitedMode=false;
+function startSessionTimer(){
+ if(limitedTimerId)clearInterval(limitedTimerId);
+ limitedEndsAt=Date.now()+TEMP_SESSION_MS;
+ const tick=()=>{const left=Math.max(0,limitedEndsAt-Date.now());const mins=String(Math.floor(left/60000)).padStart(2,"0");const secs=String(Math.floor((left%60000)/1000)).padStart(2,"0");
+ const badge=$("sessionCountdown");if(badge)badge.textContent=mins+":"+secs;
+ if(left<=0)endLimitedSession();};
+ tick();limitedTimerId=setInterval(tick,250);
+}
+async function endLimitedSession(){if(limitedTimerId)clearInterval(limitedTimerId);limitedTimerId=null;limitedMode=false;vaultKeyPassword="";try{const {data:{session}}=await client.auth.getSession();if(session?.user)await recordSessionEvent("logout");await client.auth.signOut();}catch(e){}stopLogsRealtime();showLogin();$("loginPassword").value="";message("loginMsg","انتهت مدة الجلسة (5 دقائق). سجّل الدخول من جديد.",false);}
+function startLimitedSession(){
+ limitedMode=true;$("loginView").classList.add("hidden");$("limitedView").classList.add("hidden");showApp();openDashboard(false);
+ const title=$("dashboard").querySelector(".dash-title");if(title&&!$("sessionCountdown")){const timer=document.createElement("span");timer.id="sessionCountdown";timer.className="timer";timer.textContent="05:00";title.append(timer);}
+ startSessionTimer();
+}
+$("limitedExit").onclick=endLimitedSession;
+async function ownerCheck(){
+ const {data:{session}}=await client.auth.getSession();
+ const user=session?.user;
+ if(user && user.email===OWNER_EMAIL){limitedMode=false;startSessionTimer();showApp();openDashboard(false);loadProfile();lockVault();startLogsRealtime();Promise.all([refreshFiles(),refreshImages()]);void refreshStorageUsage();return true;}
+ if(user) await client.auth.signOut();
+ stopLogsRealtime();showLogin();return false;
+}
+let loginBusy=false;
+$("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();if(loginBusy)return;loginBusy=true;
+ const submit=e.currentTarget.querySelector('button[type="submit"]');submit.disabled=true;
+ message("loginMsg","جاري التحقق...",false);
+ const password=$("loginPassword").value;
+ if(password===TEMP_PASSWORD){$("loginPassword").value="";startLimitedSession();loginBusy=false;submit.disabled=false;return;}
+ try{
+  const {data,error}=await client.auth.signInWithPassword({email:OWNER_EMAIL,password});
+  if(error)throw error;
+  if(!data.user||data.user.email!==OWNER_EMAIL){await client.auth.signOut();throw new Error("هذا الحساب غير مصرح له.");}
+  vaultKeyPassword=password;limitedMode=false;startSessionTimer();$("loginPassword").value="";
+  showApp();openDashboard(false);message("loginMsg","",false);loadProfile();startLogsRealtime();
+  // اعرض الواجهة فور نجاح التحقق، ثم حمّل البيانات في الخلفية بالتوازي.
+  void recordSessionEvent("login");
+  void Promise.all([refreshFiles(),refreshImages()]);
+  void refreshStorageUsage();
+  lockVault();
+ }catch(error){message("loginMsg","تعذر تسجيل الدخول: "+(error.message||"حاول مرة أخرى."));}
+ finally{loginBusy=false;submit.disabled=false;}
+});
+async function fastLogout(){
+ if(limitedTimerId)clearInterval(limitedTimerId);limitedTimerId=null;limitedMode=false;
+ const {data:{session}}=await client.auth.getSession();
+ const userId=session?.user?.id;
+ // سجّل الخروج وأغلق الجلسة بالتوازي؛ لا نؤخر إظهار شاشة الدخول.
+ const logRequest=userId?client.from("access_logs").insert({user_id:userId,event_type:"logout",user_agent:navigator.userAgent}):Promise.resolve();
+ vaultKeyPassword="";lockVault();stopLogsRealtime();showLogin();$("loginPassword").value="";
+ void Promise.resolve(logRequest).catch(()=>{}).finally(()=>client.auth.signOut());
+}
+$("logoutBtn").onclick=fastLogout;
+// تنقّل موحّد بين الرئيسية والأقسام، مع دعم زر الرجوع في الهاتف.
+const validPanels = ["filesPanel", "imagesPanel", "vaultPanel", "settingsPanel"];
+function syncTabs(id){
+ document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));
+}
+async function openPanel(id, addHistory=true){
+ if(!validPanels.includes(id)) id="filesPanel";
+ if(limitedMode){
+  const master=prompt("هذا القسم محمي. أدخل كلمة المرور الرئيسية للمتابعة:");
+  if(master===null)return;
+  const {data,error}=await client.auth.signInWithPassword({email:OWNER_EMAIL,password:master});
+  if(error||!data.user||data.user.email!==OWNER_EMAIL){if(data.user)await client.auth.signOut();alert("كلمة المرور الرئيسية غير صحيحة.");return;}
+  limitedMode=false;vaultKeyPassword=master;startLogsRealtime();void recordSessionEvent("login");
+  void Promise.all([refreshFiles(),refreshImages()]);await unlockVaultWith(master);
+ }
+ $("dashboard").classList.add("hidden");
+ $("tabsNav").classList.add("visible");
+ document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===id));
+ syncTabs(id);
+ if(addHistory) history.pushState({mntstPanel:id}, "", "#"+id);
+}
+function openDashboard(addHistory=true){
+ $("dashboard").classList.remove("hidden");
+ $("tabsNav").classList.remove("visible");
+ document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
+ if(addHistory) history.pushState({mntstPanel:"home"}, "", "#home");
+}
+document.querySelectorAll("[data-open]").forEach(b=>b.addEventListener("click",()=>openPanel(b.dataset.open)));
+document.querySelectorAll("[data-home]").forEach(b=>b.addEventListener("click",()=>openDashboard()));
+document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>openPanel(b.dataset.tab)));
+window.addEventListener("popstate",()=>{
+ const id=location.hash.slice(1);
+ if(limitedMode){openDashboard(false);return;}
+ if(id==="home" || !validPanels.includes(id)) openDashboard(false);
+ else openPanel(id,false);
+});
+
+function updateSelectedLabel(inputId,labelId){
+ const files=Array.from($(inputId).files||[]);
+ $(labelId).textContent=files.length?`تم تحديد ${files.length} ملف`:"لم يتم تحديد ملفات";
+}
+$("apkInput").addEventListener("change",()=>updateSelectedLabel("apkInput","apkSelected"));
+$("imageInput").addEventListener("change",()=>updateSelectedLabel("imageInput","imageSelected"));
+function formatBytes(bytes){
+ if(!Number.isFinite(bytes)||bytes<0)return "—";
+ if(bytes<1024)return bytes+" B";
+ const units=["KB","MB","GB","TB"];let value=bytes/1024,index=0;
+ while(value>=1024&&index<units.length-1){value/=1024;index++;}
+ return value.toFixed(2)+" "+units[index];
+}
+function drawUploadProgress(type,loaded,total,done,count,currentName){
+ const prefix=type==="apk"?"apk":"image";
+ const percent=total?Math.min(100,Math.floor(loaded/total*100)):0;
+ $(prefix+"Progress").classList.add("active");
+ $(prefix+"ProgressTitle").textContent=currentName?"جاري رفع: "+currentName:"اكتمل الرفع";
+ $(prefix+"ProgressPercent").textContent=percent+"%";
+ $(prefix+"ProgressFill").style.width=percent+"%";
+ $(prefix+"ProgressBytes").textContent=formatBytes(loaded)+" / "+formatBytes(total);
+ $(prefix+"ProgressFiles").textContent=done+" / "+count+" ملف تم تسجيله";
+}
+function uploadWithProgress(file,path,onProgress){
+ return new Promise(async(resolve,reject)=>{
+  try{
+   const {data:{session},error}=await client.auth.getSession();
+   if(error)throw error;
+   if(!session?.access_token)throw new Error("انتهت الجلسة. سجّل الدخول مرة أخرى.");
+   const encodedPath=path.split("/").map(encodeURIComponent).join("/");
+   const xhr=new XMLHttpRequest();
+   xhr.open("POST",SUPABASE_URL+"/storage/v1/object/"+BUCKET+"/"+encodedPath,true);
+   xhr.setRequestHeader("apikey",SUPABASE_KEY);
+   xhr.setRequestHeader("Authorization","Bearer "+session.access_token);
+   xhr.setRequestHeader("Content-Type",file.type||"application/octet-stream");
+   xhr.setRequestHeader("x-upsert","false");
+   xhr.upload.onprogress=e=>{if(e.lengthComputable)onProgress(e.loaded);};
+   xhr.onload=()=>{
+    if(xhr.status>=200&&xhr.status<300){onProgress(file.size);resolve();}
+    else{let msg="فشل رفع الملف (HTTP "+xhr.status+")";try{msg=JSON.parse(xhr.responseText).message||JSON.parse(xhr.responseText).error||msg;}catch(_){}reject(new Error(msg));}
+   };
+   xhr.onerror=()=>reject(new Error("انقطع الاتصال أثناء الرفع."));
+   xhr.onabort=()=>reject(new Error("تم إلغاء الرفع."));
+   xhr.send(file);
+  }catch(e){reject(e);}
+ });
+}
+async function uploadFile(inputId,type,msgId){
+ const files=Array.from($(inputId).files||[]);
+ if(!files.length){message(msgId,"حدد ملفاً واحداً على الأقل.");return;}
+ const valid=[],errors=[];
+ for(const f of files){
+  if(type==="apk"&&!f.name.toLowerCase().endsWith(".apk")){errors.push(`تم تخطي ${f.name}: ليس ملف APK.`);continue;}
+  if(type==="image"&&!f.type.startsWith("image/")){errors.push(`تم تخطي ${f.name}: ليس ملف صورة.`);continue;}
+  valid.push(f);
+ }
+ if(!valid.length){message(msgId,errors.join(" "));return;}
+ const btn=$(type==="apk"?"uploadApk":"uploadImage");btn.disabled=true;
+ let next=0,done=0,success=0,loadedTotal=0;
+ const totalBytes=valid.reduce((sum,f)=>sum+f.size,0);
+ const loadedByFile=new Array(valid.length).fill(0),failed=[];
+ drawUploadProgress(type,0,totalBytes,0,valid.length,valid[0]?.name||"");
+ const workers=Array.from({length:Math.min(3,valid.length)},async()=>{
+  while(true){
+   const index=next++;if(index>=valid.length)return;
+   const f=valid[index],path="owner/"+crypto.randomUUID()+"_"+safeName(f.name);
+   drawUploadProgress(type,loadedTotal,totalBytes,done,valid.length,f.name);
+   try{
+    await uploadWithProgress(f,path,loaded=>{
+     loadedTotal+=loaded-loadedByFile[index];loadedByFile[index]=loaded;
+     drawUploadProgress(type,loadedTotal,totalBytes,done,valid.length,f.name);
+    });
+    const ins=await client.from("file_items").insert({name:f.name,file_type:type,storage_path:path});
+    if(ins.error){await client.storage.from(BUCKET).remove([path]);throw ins.error;}
+    success++;
+   }catch(err){failed.push(`${f.name}: ${err.message||"تعذر الرفع"}`);}
+   done++;drawUploadProgress(type,loadedTotal,totalBytes,done,valid.length,done===valid.length?"":f.name);
+   message(msgId,`جاري الرفع… تم إنهاء ${done} من ${valid.length} ملف`,false);
+  }
+ });
+ await Promise.all(workers);
+ btn.disabled=false;$(inputId).value="";
+ updateSelectedLabel(inputId,type==="apk"?"apkSelected":"imageSelected");
+ const details=[...errors,...failed];
+ message(msgId,`انتهى الرفع: نجح ${success} من ${files.length} ملف.`+(details.length?"\n"+details.join("\n"):""),success>0);
+ if(type==="apk")await refreshFiles();else await refreshImages();
+ await refreshStorageUsage();
+}
+async function refreshStorageUsage(){
+ const numbers=$("storageNumbers"),details=$("storageDetails"),fill=$("storageFill");
+ if(!numbers)return;
+ try{
+  let total=0,offset=0,items=[];
+  do{
+   const {data,error}=await client.storage.from(BUCKET).list("owner",{limit:100,offset,sortBy:{column:"name",order:"asc"}});
+   if(error)throw error;
+   items=data||[];
+   for(const item of items){const size=Number(item.metadata?.size||item.metadata?.contentLength||0);if(Number.isFinite(size))total+=size;}
+   offset+=items.length;
+  }while(items.length===100);
+  const quota=1024*1024*1024,remaining=Math.max(0,quota-total),percent=Math.min(100,total/quota*100);
+  numbers.textContent=formatBytes(total)+" مستخدم / 1 GB";
+  fill.style.width=percent.toFixed(1)+"%";
+  details.textContent="المتبقي تقريباً: "+formatBytes(remaining)+" · نسبة الاستخدام: "+percent.toFixed(1)+"%";
+ }catch(e){numbers.textContent="تعذر قراءة المساحة";details.textContent="راجع Storage → Usage في لوحة Supabase لمعرفة الاستخدام الدقيق. "+(e.message||"");}
+}
+$("refreshStorage").onclick=refreshStorageUsage;
+$("uploadApk").onclick=()=>uploadFile("apkInput","apk","apkMsg");
+$("uploadImage").onclick=()=>uploadFile("imageInput","image","imageMsg");
+
+async function getItems(type){
+ const {data,error}=await client.from("file_items").select("*").eq("file_type",type).order("created_at",{ascending:false});
+ if(error) throw error; return data||[];
+}
+async function signed(path){const r=await client.storage.from(BUCKET).createSignedUrl(path,3600);if(r.error)throw r.error;return r.data.signedUrl;}
+async function removeItem(item){
+ if(!confirm("متأكد إنك عايز تحذف العنصر ده؟"))return;
+ const a=await client.storage.from(BUCKET).remove([item.storage_path]);
+ if(a.error){alert("تعذر حذف الملف: "+a.error.message);return;}
+ const b=await client.from("file_items").delete().eq("id",item.id);
+ if(b.error){alert("تم حذف الملف من التخزين لكن تعذر حذف بياناته: "+b.error.message);return;}
+ await refreshFiles();await refreshImages();
+}
+async function refreshFiles(){
+ try{const items=await getItems("apk");$("apkList").innerHTML="";
+ if(!items.length){$("apkList").innerHTML='<p class="muted">لا توجد ملفات APK حتى الآن.</p>';return;}
+ for(const item of items){const url=await signed(item.storage_path);const el=document.createElement("div");el.className="item";
+ const info=document.createElement("div");const strong=document.createElement("strong");strong.textContent=item.name;const small=document.createElement("small");small.textContent=new Date(item.created_at).toLocaleString("ar-EG");info.append(strong,small);
+ const acts=document.createElement("div");acts.className="actions";const a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener";a.textContent="تنزيل";a.style.color="#aebfff";const del=document.createElement("button");del.className="danger";del.textContent="حذف";del.onclick=()=>removeItem(item);acts.append(a,del);el.append(info,acts);$("apkList").append(el);}
+ }catch(e){$("apkList").textContent="خطأ في تحميل الملفات: "+e.message;}
+}
+let currentViewerItem=null;
+function openImageViewer(item,url){
+ currentViewerItem=item;
+ $("viewerTitle").textContent=item.name;
+ $("viewerImage").src=url;
+ $("viewerDownload").href=url;
+ $("viewerDownload").download=item.name;
+ $("imageViewer").classList.add("open");
+}
+function closeImageViewer(){$("imageViewer").classList.remove("open");$("viewerImage").src="";currentViewerItem=null;}
+$("closeViewer").onclick=closeImageViewer;
+$("imageViewer").addEventListener("click",e=>{if(e.target.id==="imageViewer")closeImageViewer();});
+$("viewerDelete").onclick=async()=>{if(currentViewerItem){const item=currentViewerItem;closeImageViewer();await removeItem(item);}};
+let selectedImageIds=new Set();
+let imageItemsCache=[];
+function updateImageSelectionUI(){
+ const count=selectedImageIds.size;
+ $("imageBulkTools").classList.toggle("hidden",count===0);
+ $("imageSelectionCount").textContent=`تم تحديد ${count} صورة`;
+ document.querySelectorAll(".photo").forEach(card=>{
+  const chosen=selectedImageIds.has(card.dataset.imageId);
+  card.classList.toggle("selected",chosen);
+  const mark=card.querySelector(".select-mark"); if(mark)mark.textContent=chosen?"✓":"";
+ });
+}
+function toggleImageSelection(item){
+ if(selectedImageIds.has(item.id))selectedImageIds.delete(item.id);else selectedImageIds.add(item.id);
+ updateImageSelectionUI();
+}
+$("clearImageSelection").onclick=()=>{selectedImageIds.clear();updateImageSelectionUI();};
+$("deleteSelectedImages").onclick=async()=>{
+ const chosen=imageItemsCache.filter(x=>selectedImageIds.has(x.id)); if(!chosen.length)return;
+ if(!confirm(`حذف ${chosen.length} صورة محددة نهائياً؟`))return;
+ const paths=chosen.map(x=>x.storage_path),ids=chosen.map(x=>x.id);
+ const a=await client.storage.from(BUCKET).remove(paths);
+ if(a.error){alert("تعذر حذف الصور: "+a.error.message);return;}
+ const b=await client.from("file_items").delete().in("id",ids);
+ if(b.error){alert("حُذفت الملفات من التخزين لكن تعذر حذف سجلاتها: "+b.error.message);return;}
+ selectedImageIds.clear();await refreshImages();
+};
+$("downloadSelectedImages").onclick=async()=>{
+ const chosen=imageItemsCache.filter(x=>selectedImageIds.has(x.id));
+ if(!chosen.length)return;
+ for(const item of chosen){try{const url=await signed(item.storage_path);const a=document.createElement("a");a.href=url;a.download=item.name;a.target="_blank";document.body.append(a);a.click();a.remove();await new Promise(r=>setTimeout(r,350));}catch(e){console.error(e);}}
+};
+async function refreshImages(){
+ try{
+  const items=await getItems("image");imageItemsCache=items;$("imageList").innerHTML="";
+  selectedImageIds=new Set([...selectedImageIds].filter(id=>items.some(x=>x.id===id)));
+  if(!items.length){$("imageList").innerHTML='<p class="muted">لا توجد صور حتى الآن.</p>';updateImageSelectionUI();return;}
+  for(const item of items){
+   const url=await signed(item.storage_path);
+   const box=document.createElement("div");box.className="photo";box.dataset.imageId=item.id;
+   const mark=document.createElement("span");mark.className="select-mark";mark.textContent=selectedImageIds.has(item.id)?"✓":"";
+   const img=document.createElement("img");img.src=url;img.alt=item.name;img.loading="lazy";img.onclick=()=>{if(selectedImageIds.size)toggleImageSelection(item);else openImageViewer(item,url);};
+   const meta=document.createElement("div");meta.className="photo-meta";
+   const name=document.createElement("span");name.className="photo-name";name.textContent=item.name;
+   const more=document.createElement("button");more.className="more-btn";more.type="button";more.textContent="⋮";more.title="خيارات الصورة";
+   const menu=document.createElement("div");menu.className="photo-menu hidden";
+   const download=document.createElement("a");download.href=url;download.download=item.name;download.textContent="تنزيل";download.className="file-trigger";download.style.padding="8px 12px";download.style.fontSize="12px";
+   const del=document.createElement("button");del.className="danger";del.textContent="حذف";del.onclick=async e=>{e.stopPropagation();menu.classList.add("hidden");await removeItem(item);};
+   menu.append(download,del);
+   more.onclick=e=>{e.stopPropagation();document.querySelectorAll(".photo-menu").forEach(m=>{if(m!==menu)m.classList.add("hidden")});menu.classList.toggle("hidden");};
+   box.onclick=e=>{if(e.target===box){if(selectedImageIds.size)toggleImageSelection(item);else openImageViewer(item,url);}};
+   let holdTimer=null,held=false;
+   box.addEventListener("pointerdown",e=>{if(e.target.closest("button,a"))return;held=false;holdTimer=setTimeout(()=>{held=true;toggleImageSelection(item);},480);});
+   ["pointerup","pointerleave","pointercancel"].forEach(ev=>box.addEventListener(ev,()=>{if(holdTimer)clearTimeout(holdTimer);holdTimer=null;}));
+   box.addEventListener("contextmenu",e=>{e.preventDefault();toggleImageSelection(item);});
+   box.addEventListener("click",e=>{if(held){e.preventDefault();e.stopPropagation();held=false;}},true);
+   meta.append(name,more);box.append(mark,img,meta,menu);$("imageList").append(box);
+  }
+  updateImageSelectionUI();
+ }catch(e){$("imageList").textContent="خطأ في تحميل الصور: "+e.message;}
+}
+document.addEventListener("click",()=>document.querySelectorAll(".photo-menu").forEach(m=>m.classList.add("hidden")));
+
+
+async function deriveKey(password,salt){
+ const material=await crypto.subtle.importKey("raw",new TextEncoder().encode(password),"PBKDF2",false,["deriveKey"]);
+ return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:250000,hash:"SHA-256"},material,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
+}
+async function encryptText(text,password){
+ const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),key=await deriveKey(password,salt);
+ const cipher=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,new TextEncoder().encode(text));
+ return JSON.stringify({v:1,salt:btoa(String.fromCharCode(...salt)),iv:btoa(String.fromCharCode(...iv)),data:btoa(String.fromCharCode(...new Uint8Array(cipher)))});
+}
+async function decryptText(payload,password){
+ const o=JSON.parse(payload),from=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+ const key=await deriveKey(password,from(o.salt));
+ const plain=await crypto.subtle.decrypt({name:"AES-GCM",iv:from(o.iv)},key,from(o.data));
+ return new TextDecoder().decode(plain);
+}
+function lockVault(){vaultKeyPassword="";$("vaultContent").classList.add("hidden");$("vaultLocked").classList.remove("hidden");$("unlockPassword").value="";}
+async function unlockVaultWith(password){
+ vaultKeyPassword=password;$("vaultLocked").classList.add("hidden");$("vaultContent").classList.remove("hidden");await refreshVault();
+}
+$("unlockBtn").onclick=async()=>{const p=$("unlockPassword").value;if(!p){message("unlockMsg","اكتب كلمة المرور.");return;}await unlockVaultWith(p);$("unlockPassword").value="";};
+$("newVaultEye").onclick=()=>{const field=$("vaultPassword");field.type=field.type==="password"?"text":"password";$("newVaultEye").textContent=field.type==="password"?"👁":"🙈";};
+$("saveVault").onclick=async()=>{
+ const email=$("vaultEmail").value.trim(),password=$("vaultPassword").value;
+ if(!email||!password){message("vaultMsg","اكتب البريد وكلمة مروره.");return;}
+ if(!vaultKeyPassword){message("vaultMsg","افتح الخزنة أولاً.");return;}
+ try{const encrypted=await encryptText(password,vaultKeyPassword);const {error}=await client.from("email_vault").insert({email,encrypted_password:encrypted});
+ if(error){message("vaultMsg","تعذر الحفظ: "+error.message);return;}
+ $("vaultEmail").value="";$("vaultPassword").value="";message("vaultMsg","تم حفظ بيانات البريد بشكل مشفّر.",false);await refreshVault();
+ }catch(e){message("vaultMsg","تعذر التشفير: "+e.message);}
+};
+async function copyToClipboard(value){
+ if(navigator.clipboard && window.isSecureContext){await navigator.clipboard.writeText(value);return;}
+ const ta=document.createElement("textarea");ta.value=value;ta.style.position="fixed";ta.style.opacity="0";document.body.append(ta);ta.select();const ok=document.execCommand("copy");ta.remove();if(!ok)throw new Error("Clipboard unavailable");
+}
+async function refreshVault(){
+ try{
+  const {data,error}=await client.from("email_vault").select("id,email,encrypted_password,created_at").order("created_at",{ascending:false});
+  if(error)throw error;
+  $("vaultList").innerHTML="";
+  if(!data.length){$("vaultList").innerHTML='<p class="muted">لا توجد عناوين بريد محفوظة.</p>';return;}
+  for(const item of data){
+   const el=document.createElement("div");el.className="item";
+   const info=document.createElement("div");info.style.flex="1";info.style.minWidth="0";
+   const strong=document.createElement("strong");strong.textContent=item.email;
+   const small=document.createElement("small");small.textContent="كلمة المرور محفوظة مشفّرة";
+   const passLine=document.createElement("div");passLine.className="password-line";
+   const passInput=document.createElement("input");passInput.type="password";passInput.readOnly=true;passInput.placeholder="••••••••";passInput.setAttribute("aria-label","كلمة مرور البريد");
+   const eye=document.createElement("button");eye.type="button";eye.className="eye-btn";eye.textContent="👁";eye.title="إظهار أو إخفاء كلمة السر";
+   let plainPassword=null,isVisible=false;
+   eye.onclick=async()=>{try{if(!plainPassword)plainPassword=await decryptText(item.encrypted_password,vaultKeyPassword);isVisible=!isVisible;passInput.type=isVisible?"text":"password";passInput.value=isVisible?plainPassword:"";eye.textContent=isVisible?"🙈":"👁";}catch(e){alert("تعذر فك تشفير كلمة السر. تأكد من فتح الخزنة بكلمة المرور الصحيحة.");}};
+   passLine.append(passInput,eye);info.append(strong,small,passLine);
+   const acts=document.createElement("div");acts.className="actions";
+   const copyEmail=document.createElement("button");copyEmail.className="secondary";copyEmail.textContent="نسخ البريد الإلكتروني";
+   copyEmail.onclick=async()=>{try{await copyToClipboard(item.email);copyEmail.textContent="تم النسخ ✓";setTimeout(()=>copyEmail.textContent="نسخ البريد الإلكتروني",1500);}catch(e){alert("تعذر نسخ البريد الإلكتروني. تحقق من إذن الحافظة في المتصفح.");}};
+   const copyPassword=document.createElement("button");copyPassword.className="secondary";copyPassword.textContent="نسخ كلمة السر";
+   copyPassword.onclick=async()=>{try{const p=plainPassword||await decryptText(item.encrypted_password,vaultKeyPassword);await copyToClipboard(p);copyPassword.textContent="تم النسخ ✓";setTimeout(()=>copyPassword.textContent="نسخ كلمة السر",1500);}catch(e){alert("تعذر نسخ كلمة السر أو فك تشفيرها.");}};
+   const del=document.createElement("button");del.className="danger";del.textContent="حذف";
+   del.onclick=async()=>{if(!confirm("حذف بيانات هذا البريد؟"))return;const r=await client.from("email_vault").delete().eq("id",item.id);if(r.error)alert(r.error.message);else await refreshVault();};
+   acts.append(copyEmail,copyPassword,del);el.append(info,acts);$("vaultList").append(el);
+  }
+ }catch(e){message("vaultMsg","تعذر تحميل الخزنة: "+e.message);}
+}
+
+// Profile is stored locally on this browser. Session events are stored in Supabase access_logs.
+const PROFILE_KEY="mntst_profile_v1";
+function loadProfile(){
+ let p={};try{p=JSON.parse(localStorage.getItem(PROFILE_KEY)||"{}")}catch(e){}
+ $("profileName").value=p.name||"";
+ $("profileAvatar").src=p.avatar||"data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="50" fill="#202a3a"/><text x="50" y="62" font-size="42" text-anchor="middle" fill="#b9c9e5">M</text></svg>');
+}
+$("settingsBtn").onclick=()=>{openPanel("settingsPanel");loadProfile();loadSessionLogs();};
+$("saveProfile").onclick=()=>{let p={};try{p=JSON.parse(localStorage.getItem(PROFILE_KEY)||"{}")}catch(e){}p.name=$("profileName").value.trim();localStorage.setItem(PROFILE_KEY,JSON.stringify(p));message("profileMsg","تم حفظ الاسم على هذا الجهاز.",true);};
+$("avatarInput").onchange=async e=>{
+ const f=e.target.files[0];if(!f)return;
+ if(!f.type.startsWith("image/")){message("profileMsg","اختر صورة صحيحة.");return;}
+ if(f.size>1500000){message("profileMsg","حجم الصورة كبير. اختر صورة أقل من 1.5 ميجابايت.");return;}
+ const reader=new FileReader();reader.onload=()=>{let p={};try{p=JSON.parse(localStorage.getItem(PROFILE_KEY)||"{}")}catch(err){}p.avatar=reader.result;localStorage.setItem(PROFILE_KEY,JSON.stringify(p));loadProfile();message("profileMsg","تم تحديث الصورة على هذا الجهاز.",true);};reader.readAsDataURL(f);
+};
+async function recordSessionEvent(eventType){
+ try{
+  const {data:{session}}=await client.auth.getSession();const user=session?.user;if(!user)return;
+  const {error}=await client.from("access_logs").insert({user_id:user.id,event_type:eventType,user_agent:navigator.userAgent});
+  if(error)console.warn("access_logs:",error.message);
+ }catch(e){console.warn(e);}
+}
+let logsRealtimeChannel=null,logsLoading=false;
+function startLogsRealtime(){
+ if(logsRealtimeChannel)return;
+ logsRealtimeChannel=client.channel("mntst-access-logs-live")
+  .on("postgres_changes",{event:"*",schema:"public",table:"access_logs"},()=>{
+   if($("settingsPanel").classList.contains("active"))void loadSessionLogs();
+  }).subscribe();
+}
+function stopLogsRealtime(){if(logsRealtimeChannel){client.removeChannel(logsRealtimeChannel);logsRealtimeChannel=null;}}
+async function deleteOneLog(id,button){
+ if(!confirm("هل تريد حذف سجل العملية دي؟"))return;
+ button.disabled=true;
+ const {error}=await client.from("access_logs").delete().eq("id",id);
+ if(error){alert("تعذر حذف السجل: "+error.message);button.disabled=false;return;}
+ await loadSessionLogs();
+}
+async function deleteAllLogs(){
+ if(!confirm("تأكيد مسح سجل الدخول والخروج بالكامل؟ لا يمكن التراجع عن الحذف."))return;
+ const button=$("deleteAllLogs");button.disabled=true;
+ const {error}=await client.from("access_logs").delete().gt("id",0);
+ button.disabled=false;
+ if(error){alert("تعذر مسح السجل: "+error.message);return;}
+ await loadSessionLogs();
+}
+async function loadSessionLogs(){
+ if(logsLoading)return;logsLoading=true;
+ $("sessionLogs").innerHTML='<p class="muted">جاري تحميل السجل...</p>';
+ try{
+  const {data,error}=await client.from("access_logs").select("id,event_type,created_at,user_agent").order("created_at",{ascending:false}).limit(100);
+  if(error)throw error;
+  $("sessionLogs").innerHTML="";
+  if(!data.length){$("sessionLogs").innerHTML='<p class="muted">لا توجد عمليات مسجلة حتى الآن.</p>';return;}
+  for(const log of data){
+   const row=document.createElement("div");row.className="log-row";
+   const info=document.createElement("div");info.className="log-info";
+   const label=log.event_type==="login"?"تسجيل دخول":log.event_type==="logout"?"تسجيل خروج":"نشاط";
+   const when=new Date(log.created_at).toLocaleString("ar-EG");
+   info.textContent=label+" · "+when;
+   const del=document.createElement("button");del.type="button";del.className="danger log-delete";del.textContent="حذف";del.onclick=()=>deleteOneLog(log.id,del);
+   row.append(info,del);$("sessionLogs").append(row);
+  }
+ }catch(e){$("sessionLogs").innerHTML='<p class="muted">تعذر تحميل السجل. تأكد من تشغيل كود SQL المرفق في Supabase. ('+String(e.message||e)+')</p>';}
+ finally{logsLoading=false;}
+}
+$("refreshLogs").onclick=loadSessionLogs;
+$("deleteAllLogs").onclick=deleteAllLogs;
+
+(async()=>{await ownerCheck();})();
+</script>
+</body></html>
